@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<title>Home</title>
+<h1>Check your Weather</h1>
+<h3>Enter the name of the city below:</h3>
+<form method="post">
+    <input type="text" placeholder="{{placeholder}}" id="user_city" name="user_city">
+    <input type="submit" id="submit" name="submit">
+</form>
+
+{% endblock %}
+
