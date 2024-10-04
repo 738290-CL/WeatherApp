@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<title>Weather: {{user_city}}</title>
+    <div class="current">
+        <h1 id="user_city">{{user_city}}</h1>
+        <h3 id="location_name">{{location_name}}</h3>
+        <h1 id="temp_c">{{temp_c}}°C</h1>
+        <div>
+            <h3 id="condition_text">{{condition_text}}</h3>
+            <img src={{condition_icon}}>
+        </div>
+        <h3 id="feelslike_c">Feels Like: {{feelslike_c}}°C</h3>
+
+        <h3 id="wind_kph">Wind: {{wind_kph}}kph</h3>
+        <h3 id="wind_dir">Direction: {{wind_dir}}</h3>
+
+        <h3 id="pressure_mb">Pressure: {{pressure_mb}}mb</h3>
+
+        <h3 id="precip_mm">Rain: {{precip_mm}}mm</h3>
+
+        <h3 id="humidity">Humidity: {{humidity}}%</h3>
+
+        <h3 id="vis_km">Visibility: {{vis_km}}km</h3>
+
+        <h3>Air Quality Index: {{uk_defra_index}}</h3>
+
+        <h3 id="sunrise">Sunrise: {{forecast[0]["astro"]["sunrise"]}}</h3>
+
+        <h3 id="sunset">Sunset: {{forecast[0]["astro"]["sunset"]}}</h3>
+    </div>
+    {% if logged_in %}
+    <div class="forecast">
+        <h1>Forecast</h1>
+        <h2>7 day forecast for {{user_city}} from {{day0}} to {{day6}}:</h2>
+        <table>
+            <tr>
+                <th>{{day0}}</th>
+                <th>{{day1}}</th>
+                <th>{{day2}}</th>
+                <th>{{day3}}</th>
+                <th>{{day4}}</th>
+                <th>{{day5}}</th>
+                <th>{{day6}}</th>
+            </tr>
+            <tr>
+                <td>{{forecast[0]["day"]["avgtemp_c"]}}°C</td>
+                <td>{{forecast[1]["day"]["avgtemp_c"]}}°C</td>
+                <td>{{forecast[2]["day"]["avgtemp_c"]}}°C</td>
+                <td>{{forecast[3]["day"]["avgtemp_c"]}}°C</td>
+                <td>{{forecast[4]["day"]["avgtemp_c"]}}°C</td>
+                <td>{{forecast[5]["day"]["avgtemp_c"]}}°C</td>
+                <td>{{forecast[6]["day"]["avgtemp_c"]}}°C</td>
+            </tr>
+            <tr>
+                <td>{{forecast[0]["day"]["mintemp_c"]}}°C to {{forecast[0]["day"]["maxtemp_c"]}}°C</td>
+                <td>{{forecast[1]["day"]["mintemp_c"]}}°C to {{forecast[1]["day"]["maxtemp_c"]}}°C</td>
+                <td>{{forecast[2]["day"]["mintemp_c"]}}°C to {{forecast[2]["day"]["maxtemp_c"]}}°C</td>
+                <td>{{forecast[3]["day"]["mintemp_c"]}}°C to {{forecast[3]["day"]["maxtemp_c"]}}°C</td>
+                <td>{{forecast[4]["day"]["mintemp_c"]}}°C to {{forecast[4]["day"]["maxtemp_c"]}}°C</td>
+                <td>{{forecast[5]["day"]["mintemp_c"]}}°C to {{forecast[5]["day"]["maxtemp_c"]}}°C</td>
+                <td>{{forecast[6]["day"]["mintemp_c"]}}°C to {{forecast[6]["day"]["maxtemp_c"]}}°C</td>
+            </tr>
+            <tr>
+                <td>
+                    <img src={{forecast[0]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[0]["day"]["condition"]["text"]}}</p>
+                </td>
+                <td>
+                    <img src={{forecast[1]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[1]["day"]["condition"]["text"]}}</p>
+                </td>
+                <td>
+                    <img src={{forecast[2]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[2]["day"]["condition"]["text"]}}</p>
+                </td>
+                <td>
+                    <img src={{forecast[3]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[3]["day"]["condition"]["text"]}}</p>
+                </td>
+                <td>
+                    <img src={{forecast[4]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[4]["day"]["condition"]["text"]}}</p>
+                </td>
+                <td>
+                    <img src={{forecast[5]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[5]["day"]["condition"]["text"]}}</p>
+                </td>
+                <td>
+                    <img src={{forecast[6]["day"]["condition"]["icon"]}}>
+                    <p>{{forecast[6]["day"]["condition"]["text"]}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>Rain: {{forecast[0]["day"]["daily_chance_of_rain"]}}%</td>
+                <td>Rain: {{forecast[1]["day"]["daily_chance_of_rain"]}}%</td>
+                <td>Rain: {{forecast[2]["day"]["daily_chance_of_rain"]}}%</td>
+                <td>Rain: {{forecast[3]["day"]["daily_chance_of_rain"]}}%</td>
+                <td>Rain: {{forecast[4]["day"]["daily_chance_of_rain"]}}%</td>
+                <td>Rain: {{forecast[5]["day"]["daily_chance_of_rain"]}}%</td>
+                <td>Rain: {{forecast[6]["day"]["daily_chance_of_rain"]}}%</td>
+            </tr>
+        </table>
+    {% else %}
+    <h2>Sign in with an account to see the forecast!</h2>
+    {% endif %}
+
+
+    </div>
+    {% if logged_in %}
+    <div class="AQI_advice">
+        <h1>Air Quality Index Advice</h1>
+        <h2>Recommended Actions and Health Advice for {{day0}} in {{user_city}}:</h2>
+        {% if uk_defra_index < 4 %}
+        <p><u>Message for everyone:</u></p>
+        <p><b>Enjoy</b> your usual outdoor activities.</p>
+        {% elif uk_defra_index > 3 and uk_defra_index < 7 %}
+        <p><u>Message for at-risk individuals:</u></p>
+        <p>Adults and children with lung problems, and adults with heart problems, <b>who experience symptoms,
+            should consider reducing </b> strenuous physical activity, particularly outdoors.</p>
+        <p><u>Message for general population:</u></p>
+        <p><b>Enjoy</b> your usual outdoor activities.</p>
+        {% elif uk_defra_index > 6 and uk_defra_index < 10 %}
+        <p><u>Message for at-risk individuals:</u></p>
+        <p>Adults and children with lung problems, and adults with heart problems, should <b>reduce</b> strenuous physical
+            exertion, particularly outdoors, and particularly if they experience symptoms. People with asthma may find
+            they need to use their reliever inhaler more often. Older people should also <b>reduce</b> physical exertion.</p>
+        <p><u>Message for general population:</u></p>
+        <p>Anyone experiencing discomfort such as sore eyes, cough or sore throat should <b>consider reducing</b> activity,
+            particularly outdoors.</p>
+        {% else %}
+        <p><u>Message for at-risk individuals:</u></p>
+        <p>Adults and children with lung problems, adults with heart problems, and older people, should <b>avoid</b> strenuous
+            physical activity. People with asthma may find they need to use their reliever inhaler more often.</p>
+        <p><u>Message for general population:</u></p>
+        <p><b>Reduce</b> physical exertion, particularly outdoors, especially if you experience symptoms such as cough or
+            sore throat.</p>
+        {% endif %}
+    </div>
+    {% else %}
+    <h2>Sign in with an account to see the Air Quality Index Advice!</h2>
+    {% endif %}
+
+{% endblock %}
