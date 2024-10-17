@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<style>
+    div {
+    text-align: centre;
+    border-radius: 28px;
+    margin: auto;
+    width: 50%;
+    border: none;
+    padding: 50px;
+    padding-bottom: 70px;
+
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+    background: inherit;
+    }
+    input:first-child {
+    width: 100%;
+    height: 30px;
+    border-radius: 28px;
+    border: 2px solid #333;
+    }
+    input:last-child {
+    margin: auto;
+    }
+    #submit {
+    background-color: #F56217;
+    color: white;
+    border-radius: 28px;
+    font-size: 30px;
+    border: 2px solid #333;
+    transition: 0.5s;
+    width: 50%;
+    position: absolute;
+
+    }
+    #submit:hover {
+    background-color: #0B486B
+    }
+    div h1, div h3 {
+    text-align: center;
+    }
+</style>
+
+<title>Home</title>
+<div class="container">
+<h1>Check the Weather</h1><br><br>
+<h3>Enter the name of the city below</h3><br>
+<form method="post">
+    <input type="text" placeholder="{{placeholder}}" id="user_city" name="user_city"> <br><br>
+    <input type="submit" id="submit" name="submit">
+</form>
+</div>
+{% endblock %}
